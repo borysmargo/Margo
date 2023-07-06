@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+// Функція для обміну значеннями двох символів
+void swap(char *x, char *y) {
+    char temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+// Рекурсивна функція для генерації анаграм
+void generateAnagrams(char *word, int start, int end, int *count) {
+    int i;
+    if (start == end) {
+        // Виводимо анаграму
+        printf("%s\n", word);
+        (*count)++;
+    } else {
+        for (i = start; i <= end; i++) {
+            // Міняємо місцями поточну літеру з кожною іншою літерою
+            swap((word + start), (word + i));
+            // Рекурсивно генеруємо анаграми для підмасиву
+            generateAnagrams(word, start + 1, end, count);
+            // Повертаємо початковий порядок символів
+            swap((word + start), (word + i));
+        }
+    }
+}
+
+int main() {
+    char word[15];
+    int count = 0;
+    
+    // Зчитуємо вхідне слово
+    printf("Введіть слово: ");
+    scanf("%s", word);
+    
+    int length = strlen(word);
+    
+    // Генеруємо анаграми та рахуємо їх кількість
+    generateAnagrams(word, 0, length - 1, &count);
+    
+    // Виводимо кількість анаграм
+    printf("Кількість анаграм: %d\n", count);
+    
+    return 0;
+}
